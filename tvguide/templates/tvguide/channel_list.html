@@ -1,0 +1,72 @@
+{% extends 'tvguide/base.html' %}
+
+{% block title %}Channels - TV Guide{% endblock %}
+
+{% block content %}
+    <h1>Channels</h1>
+
+    {% if channels %}
+        <ul class="channels-list"> {# Use a class similar to frontend for potential styling #}
+            {% for channel in channels %}
+                <li class="channel-item"> {# Use a class similar to frontend #}
+                    <a href="{% url 'channel_detail' channel.id %}">
+                        <h2>{{ channel.name }}</h2>
+                        <p>({{ channel.country }})</p>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No channels found.</p>
+    {% endif %}
+
+    <style>
+        /* Basic styles based on frontend.txt ChannelsPage.css */
+        .channels-page h1 {
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+
+        .channels-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .channel-item {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            background-color: #fff;
+        }
+
+        .channel-item:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .channel-item a {
+            display: block;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .channel-item h2 {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-size: 1.4rem;
+        }
+
+        .channel-item p {
+            margin: 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+    </style>
+{% endblock %}

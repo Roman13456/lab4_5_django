@@ -1,0 +1,92 @@
+{% extends 'tvguide/base.html' %}
+{% load tvguide_filters %}
+
+{% block title %}All Programs - TV Guide{% endblock %}
+
+{% block content %}
+    <h1>All Programs</h1>
+
+    {% if programs %}
+        <ul class="programs-list-detailed"> {# Use a class similar to frontend #}
+            {% for program in programs %}
+                <li class="program-item-detailed"> {# Use a class similar to frontend #}
+                    <div class="program-info"> {# Use a class similar to frontend #}
+                        <h3>{{ program.title }}</h3>
+                        <p class="program-channel">Channel: {{ program.channel_name }}</p> {# Display channel name #}
+                        <p class="program-description">{{ program.description }}</p>
+                        <p class="program-time">
+                            <strong>Start:</strong> {{ program.start_time|format_datetime }}
+                        </p>
+                        <p class="program-time">
+                            <strong>End:</strong> {{ program.end_time|format_datetime }}
+                        </p>
+                    </div>
+                    {# Action buttons omitted as per plan simplification #}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No programs found.</p>
+    {% endif %}
+
+    <style>
+        /* Basic styles based on frontend.txt ProgramsPage.css */
+        .programs-page h1 {
+            margin-bottom: 1rem;
+        }
+
+        .programs-list-detailed {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .program-item-detailed {
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .program-info {
+            flex-grow: 1;
+        }
+
+        .program-info h3 {
+            margin-top: 0;
+            margin-bottom: 0.75rem;
+            font-size: 1.4rem;
+            color: #333;
+        }
+
+        .program-channel {
+            font-size: 0.9rem;
+            color: #777;
+            margin-bottom: 0.5rem;
+        }
+
+        .program-description {
+            margin-bottom: 1rem;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .program-time {
+            margin: 0.3rem 0;
+            font-size: 0.95rem;
+            color: #333;
+        }
+
+        .program-time strong {
+            margin-right: 0.5em;
+            color: #111;
+        }
+    </style>
+{% endblock %}

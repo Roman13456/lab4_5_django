@@ -1,0 +1,117 @@
+{% extends 'tvguide/base.html' %}
+{% load tvguide_filters %}
+
+{% block title %}{{ channel.name }} - TV Guide{% endblock %}
+
+{% block content %}
+    <a href="{% url 'channel_list' %}" class="back-link">← Back to Channels</a>
+
+    <header class="channel-detail-header">
+        <h1>{{ channel.name }}</h1>
+        <p>({{ channel.country }})</p>
+    </header>
+
+    <section class="programs-section">
+        <h2>Programs on this Channel</h2>
+        {% if programs %}
+            <ul class="programs-list"> {# Use a class similar to frontend #}
+                {% for program in programs %}
+                    <li class="program-item"> {# Use a class similar to frontend #}
+                        <h3>{{ program.title }}</h3>
+                        <p class="program-description">{{ program.description }}</p>
+                        <p class="program-time">
+                            <strong>Start:</strong> {{ program.start_time|format_datetime }}
+                        </p>
+                        <p class="program-time">
+                            <strong>End:</strong> {{ program.end_time|format_datetime }}
+                        </p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No programs listed for this channel currently.</p>
+        {% endif %}
+    </section>
+
+    <style>
+        /* Basic styles based on frontend.txt ChannelDetailPage.css */
+        .channel-detail-page {
+            padding-bottom: 2rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .channel-detail-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .channel-detail-header h1 {
+            margin-bottom: 0.25rem;
+            font-size: 2.5rem;
+            color: #333;
+        }
+
+        .channel-detail-header p {
+            margin: 0;
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .programs-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #444;
+        }
+
+        .programs-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .program-item {
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .program-item h3 {
+            margin-top: 0;
+            margin-bottom: 0.75rem;
+            font-size: 1.4rem;
+            color: #0056b3;
+        }
+
+        .program-description {
+            margin-bottom: 1rem;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .program-time {
+            margin: 0.3rem 0;
+            font-size: 0.95rem;
+            color: #333;
+        }
+
+        .program-time strong {
+            margin-right: 0.5em;
+            color: #111;
+        }
+    </style>
+{% endblock %}

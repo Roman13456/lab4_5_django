@@ -1,0 +1,6 @@
+frontend.txt
+.repomix
+repomix-output.txt
+venv
+db.sqlite3
+__pycache__
