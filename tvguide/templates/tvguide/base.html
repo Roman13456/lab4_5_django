@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TV Guide{% endblock %}</title>
+    {# Optional: Link to a static CSS file if you create one later #}
+    {# <link rel="stylesheet" href="{% static 'tvguide/style.css' %}"> #}
+    <style>
+        /* Basic styles based on frontend.txt App.css and Header.css */
+        body {
+            font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+            line-height: 1.5;
+            margin: 0;
+            background-color: #f4f4f4; /* Light gray background */
+            color: #333;
+        }
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: #282c34;
+            color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        .app-header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+        .app-header nav a {
+            color: #a8b2d1;
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 0.5rem 0;
+        }
+        .app-header nav a:hover {
+            color: #61dafb;
+        }
+         .content {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: left;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <a href="{% url 'home' %}" class="logo">TV Guide</a>
+        <nav>
+            <ul>
+                <li><a href="{% url 'channel_list' %}">Channels</a></li>
+                <li><a href="{% url 'program_list' %}">Programs</a></li>
+                {# Authentication link is omitted as per plan simplification #}
+            </ul>
+        </nav>
+    </header>
+
+    <main class="content">
+        {% block content %}
+        {# Content from specific pages goes here #}
+        {% endblock %}
+    </main>
+
+    {# Optional: Include static JS files if needed #}
+    {# <script src="{% static 'tvguide/script.js' %}"></script> #}
+</body>
+</html>
