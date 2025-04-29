@@ -1,0 +1,117 @@
+{% extends "tvguide/base.html" %}
+
+{% block title %}Register - TV Guide{% endblock %}
+
+{% block content %}
+<div class="register-container"> {# Use consistent container class naming convention #}
+  <h2>Register</h2>
+  <p class="intro-text">Create a new account.</p> {# Add class for intro text #}
+
+  <form method="post" class="register-form"> {# Add form class #}
+    {% csrf_token %}
+    {{ form.as_p }} {# Render form fields as paragraphs #}
+    <div class="form-actions"> {# Wrapper for button #}
+        <button type="submit" class="button-register">Register</button>
+    </div>
+  </form>
+
+  <p class="login-link">Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+</div>
+
+{# Styles consistent with login.html #}
+<style>
+    .register-container {
+        max-width: 400px; 
+        margin: 2rem auto;
+        padding: 2rem;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .register-container h2 {
+        text-align: center;
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+        color: #333;
+    }
+    .register-container .intro-text {
+        text-align: center;
+        margin-bottom: 1.5rem;
+        color: #555;
+    }
+    .register-form p {
+        margin-bottom: 1.5rem;
+    }
+    .register-form label {
+        display: block;
+        margin-bottom: 0.5rem; 
+        font-weight: bold;
+        color: #333;
+    }
+    .register-form input[type="text"],
+    .register-form input[type="password"] {
+        width: 100%;
+        padding: 0.8rem; 
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 1rem;
+    }
+    .register-form ul.errorlist {
+        list-style: none;
+        padding: 0;
+        margin: 0.3rem 0 0 0;
+        color: #dc3545;
+        font-size: 0.85rem;
+    }
+     .register-form ul.errorlist li {
+         margin-bottom: 0.2rem;
+     }
+    .register-form ul.errorlist + input { 
+         border-color: #dc3545 !important;
+    }
+    .register-form .helptext { 
+        font-size: 0.85em;
+        color: #666;
+        margin-top: 0.2rem;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+    .register-form .form-actions {
+        margin-top: 1rem; 
+    }
+    .register-form button.button-register { 
+        width: 100%;
+        padding: 0.9rem;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+    .register-form button.button-register:hover {
+        background-color: #0056b3;
+    }
+     .register-form button.button-register:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+    }
+    .login-link {
+        text-align: center;
+        margin-top: 1.5rem;
+        font-size: 0.9rem;
+        color: #555;
+    }
+    .login-link a {
+        color: #007bff;
+        font-weight: bold;
+        text-decoration: none;
+    }
+    .login-link a:hover {
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}

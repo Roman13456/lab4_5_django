@@ -1,0 +1,73 @@
+{% extends 'tvguide/base.html' %}
+
+{% block title %}Confirm Delete - TV Guide{% endblock %}
+
+{% block content %}
+  <div class="confirm-delete-container">
+    <h1>Confirm Deletion</h1>
+    <p>Are you sure you want to delete the program: <strong>"{{ program.title }}"</strong>?</p>
+    <p>This action cannot be undone.</p>
+
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-actions">
+          <button type="submit" class="button-delete">Yes, delete</button>
+          <a href="{% url 'program_list' %}" class="button-cancel">Cancel</a> {# Or link back to program detail if applicable #}
+      </div>
+    </form>
+  </div>
+
+  <style>
+    .confirm-delete-container {
+        background-color: #fff;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        max-width: 500px;
+        margin: 2rem auto;
+        text-align: center;
+        border: 1px solid #dc3545; 
+    }
+    .confirm-delete-container h1 {
+        color: #dc3545; 
+        margin-bottom: 1rem;
+    }
+    .confirm-delete-container p {
+        margin-bottom: 1rem;
+        line-height: 1.6;
+    }
+    .form-actions {
+        margin-top: 1.5rem;
+        padding-top: 1rem;
+        border-top: 1px solid #eee;
+        display: flex;
+        justify-content: center; 
+        gap: 1rem;
+    }
+    .form-actions button,
+    .form-actions a.button-cancel {
+        padding: 0.7rem 1.5rem;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 1rem;
+        cursor: pointer;
+        border: none;
+    }
+    .button-delete {
+        background-color: #dc3545;
+        color: white;
+    }
+    .button-delete:hover {
+        background-color: #c82333;
+    }
+    .button-cancel {
+        background-color: #6c757d;
+        color: white;
+        display: inline-block;
+        text-align: center;
+    }
+    .button-cancel:hover {
+        background-color: #5a6268;
+    }
+  </style>
+{% endblock %}

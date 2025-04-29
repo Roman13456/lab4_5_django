@@ -1,0 +1,171 @@
+{% extends 'tvguide/base.html' %}
+
+{% block title %}{{ action }} {{ model_name }} - TV Guide{% endblock %}
+
+{% block content %}
+  <div class="channel-form-container"> {# Container for structure #}
+    <h1>{{ action }} {{ model_name }}</h1>
+
+    <form method="post">
+      {% csrf_token %}
+
+      {# Display non-field errors #}
+      {% if form.non_field_errors %}
+        <div class="form-error-message">
+          {% for error in form.non_field_errors %}
+            <p>{{ error }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {# Render form fields using as_p, styles will target elements within #}
+      {{ form.as_p }}
+
+      <div class="form-actions">
+          <button type="submit" class="button-save">{{ action }} {{ model_name }}</button>
+          <a href="{% url 'channel_list' %}" class="button-cancel">Cancel</a>
+      </div>
+    </form>
+  </div>
+  {# Add this script block #}
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const requiredInputs = document.querySelectorAll('.channel-form-container input[required]');
+        const submitBtn = document.querySelector('.channel-form-container button');
+        requiredInputs.forEach(input => {
+          input.addEventListener('blur', function() {
+            input.classList.add('interacted');
+          });
+        });
+        submitBtn.addEventListener("click", function(){
+          console.log("click sbmit")
+          requiredInputs.forEach(input => {
+            input.classList.add('interacted');
+          })
+        })
+      });
+
+    </script>
+
+  {# Styles adapted from program_form.html #}
+  <style>
+    .channel-form-container {
+        background-color: #fff;
+        padding: 2rem 2.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        max-width: 600px; /* Adjusted width */
+        margin: 1rem auto;
+    }
+    .channel-form-container h1 {
+        text-align: center;
+        margin-top: 0;
+        margin-bottom: 2rem;
+        color: #333;
+    }
+    .channel-form-container form > p {
+        margin-bottom: 1.5rem;
+    }
+    .channel-form-container label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+        color: #555;
+    }
+    .channel-form-container input[type="text"],
+    .channel-form-container select { /* Adjusted for channel fields */
+        width: 100%;
+        padding: 0.8rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 1rem;
+        font-family: inherit;
+    }
+    .channel-form-container .errorlist {
+        list-style: none;
+        padding: 0;
+        margin: 0.3rem 0 0 0;
+        color: #dc3545;
+        font-size: 0.85rem;
+    }
+     .channel-form-container .errorlist li {
+         margin-bottom: 0.2rem;
+     }
+    .form-error-message {
+        color: #721c24;
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        padding: 0.8rem 1.25rem;
+        margin-bottom: 1.5rem;
+        border-radius: 4px;
+        text-align: center;
+    }
+
+    .channel-form-container input[required] {
+        border: 1px solid #ccc; 
+    }
+
+    .channel-form-container input[required].interacted:invalid {
+        border-color: #dc3545; /* Red border */
+    }
+    .channel-form-container input[required].interacted:valid {
+        border-color: #28a745; 
+    }
+
+
+
+
+     .form-error-message p {
+         margin: 0;
+     }
+    .form-actions {
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #eee;
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+    }
+    .form-actions button,
+    .form-actions a.button-cancel {
+        padding: 0.7rem 1.5rem;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 1rem;
+        cursor: pointer;
+        border: 1px solid transparent;
+    }
+    .button-save {
+        background-color: #28a745;
+        color: white;
+        border-color: #28a745;
+    }
+    .button-save:hover {
+        background-color: #218838;
+        border-color: #1e7e34;
+    }
+    .button-save:disabled {
+         background-color: #cccccc;
+         border-color: #cccccc;
+         cursor: not-allowed;
+    }
+    .button-cancel {
+        background-color: #6c757d;
+        color: white;
+        display: inline-block;
+        text-align: center;
+        border-color: #6c757d;
+    }
+    .button-cancel:hover {
+        background-color: #5a6268;
+        border-color: #545b62;
+    }
+     .button-cancel:disabled {
+         background-color: #cccccc;
+         border-color: #cccccc;
+         cursor: not-allowed;
+    }
+  </style>
+
+{% endblock %}

@@ -8,12 +8,12 @@
     {# Optional: Link to a static CSS file if you create one later #}
     {# <link rel="stylesheet" href="{% static 'tvguide/style.css' %}"> #}
     <style>
-        /* Basic styles based on frontend.txt App.css and Header.css */
+        
         body {
             font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
             line-height: 1.5;
             margin: 0;
-            background-color: #f4f4f4; /* Light gray background */
+            background-color: #f4f4f4; 
             color: #333;
         }
         .app-header {
@@ -39,13 +39,20 @@
             padding: 0;
             align-items: center;
         }
-        .app-header nav a {
+        .app-header nav a,
+        .app-header nav button.auth-link { 
             color: #a8b2d1;
             text-decoration: none;
             font-size: 1rem;
             padding: 0.5rem 0;
+            background: none; 
+            border: none; 
+            cursor: pointer; 
+            font-family: inherit; 
+            vertical-align: baseline; 
         }
-        .app-header nav a:hover {
+        .app-header nav a:hover,
+        .app-header nav button.auth-link:hover {
             color: #61dafb;
         }
          .content {
@@ -61,6 +68,10 @@
         a:hover {
             text-decoration: underline;
         }
+        .user-status { 
+            color: #ffffff;
+            margin-right: 0.5rem;
+        }
     </style>
 </head>
 <body>
@@ -70,7 +81,17 @@
             <ul>
                 <li><a href="{% url 'channel_list' %}">Channels</a></li>
                 <li><a href="{% url 'program_list' %}">Programs</a></li>
-                {# Authentication link is omitted as per plan simplification #}
+                <li>
+                    {% if user.is_authenticated %}
+                      <span class="user-status">Welcome, {{ user.username }}!</span>
+                      <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="auth-link">Logout</button>
+                      </form>
+                    {% else %}
+                      <a href="{% url 'login' %}" class="auth-link">Login</a>
+                    {% endif %}
+                </li>
             </ul>
         </nav>
     </header>

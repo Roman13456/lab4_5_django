@@ -16,8 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from tvguide import views as tvguide_views # Import tvguide views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # Registration URL
+    path('accounts/register/', tvguide_views.register, name='register'),
+    # Include default auth URLs (login, logout, password reset, etc.)
+    path('accounts/', include('django.contrib.auth.urls')),
+    # App URLs
     path('', include('tvguide.urls')),
 ]

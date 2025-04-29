@@ -4,7 +4,24 @@
 {% block title %}All Programs - TV Guide{% endblock %}
 
 {% block content %}
-    <h1>All Programs</h1>
+
+    {# Display Messages #}
+    {% if messages %}
+      <div class="messages-container" style="max-width: 1100px; margin: 0 auto 1rem auto;"> {# Centered container #}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}" role="alert" style="padding: 0.75rem 1.25rem; margin-bottom: 1rem; border: 1px solid transparent; border-radius: 0.25rem; {% if message.tags == 'success' %}color: #155724; background-color: #d4edda; border-color: #c3e6cb;{% elif message.tags == 'error' %}color: #721c24; background-color: #f8d7da; border-color: #f5c6cb;{% else %}color: #0c5460; background-color: #d1ecf1; border-color: #bee5eb;{% endif %}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="programs-header"> {# Match frontend structure #}
+        <h1>All Programs</h1>
+        {% if user.is_staff %} {# Changed from is_authenticated to is_staff #}
+            <a href="{% url 'program_create' %}" class="button-create">Create New Program</a>
+        {% endif %}
+    </div>
 
     {% if programs %}
         <ul class="programs-list-detailed"> {# Use a class similar to frontend #}
@@ -12,7 +29,7 @@
                 <li class="program-item-detailed"> {# Use a class similar to frontend #}
                     <div class="program-info"> {# Use a class similar to frontend #}
                         <h3>{{ program.title }}</h3>
-                        <p class="program-channel">Channel: {{ program.channel_name }}</p> {# Display channel name #}
+                        <p class="program-channel">Channel: {{ program.channel.name }}</p> {# Display channel name #}
                         <p class="program-description">{{ program.description }}</p>
                         <p class="program-time">
                             <strong>Start:</strong> {{ program.start_time|format_datetime }}
@@ -21,7 +38,13 @@
                             <strong>End:</strong> {{ program.end_time|format_datetime }}
                         </p>
                     </div>
-                    {# Action buttons omitted as per plan simplification #}
+                    {# Add action buttons/links for staff users #}
+                    {% if user.is_staff %} {# Changed from is_authenticated to is_staff #}
+                    <div class="program-actions">
+                        <a href="{% url 'program_update' program.pk %}" class="button-edit">Edit</a>
+                        <a href="{% url 'program_delete' program.pk %}" class="button-delete">Delete</a>
+                    </div>
+                    {% endif %}
                 </li>
             {% endfor %}
         </ul>
@@ -30,10 +53,32 @@
     {% endif %}
 
     <style>
-        /* Basic styles based on frontend.txt ProgramsPage.css */
-        .programs-page h1 {
-            margin-bottom: 1rem;
+        .programs-header { 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #eee;
         }
+        .programs-header h1 {
+             margin-bottom: 0; 
+        }
+        .button-create {
+            background-color: #007bff;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.2s ease;
+        }
+        .button-create:hover {
+             background-color: #0056b3;
+        }
+
 
         .programs-list-detailed {
             list-style: none;
@@ -87,6 +132,39 @@
         .program-time strong {
             margin-right: 0.5em;
             color: #111;
+        }
+        .program-actions {
+            display: flex;
+            gap: 0.8rem;
+            flex-shrink: 0;
+            padding-top: 0.2rem; 
+            align-items: center; 
+        }
+        .program-actions a { 
+            padding: 0.4rem 0.9rem;
+            font-size: 0.9rem;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            color: white; 
+            border: 1px solid transparent;
+            text-align: center;
+        }
+        .button-edit {
+            background-color: #ffc107;
+            color: #333;
+            border-color: #dda800;
+        }
+        .button-edit:hover {
+            background-color: #e0a800;
+        }
+        .button-delete {
+            background-color: #dc3545; 
+            color: white;
+            border-color: #b02a37;
+        }
+        .button-delete:hover {
+            background-color: #c82333;
         }
     </style>
 {% endblock %}

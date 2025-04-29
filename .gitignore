@@ -2,3 +2,15 @@ frontend.txt
 .repomix
 repomix-output.txt
 venv
+__pycache__
+db.sqlite3
+
+
+*.pyc
+
+staticfiles/
+
+media/
+
+.vscode/
+
